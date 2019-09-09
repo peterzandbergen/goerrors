@@ -9,21 +9,25 @@ import (
 )
 
 func main() {
+
+	// Use wrapped error with error variables.
 	var err error = varerror.ErrNotFound
-	// Test errors.Is
 	if errors.Is(err, varerror.ErrNotFound) {
 		fmt.Println("one")
 	}
+	// Test if the error was because of sql.ErrNoRows.
 	if errors.Is(err, sql.ErrNoRows) {
 		fmt.Println("two")
 	}
 
-	err = typeerror.SystemFailure(sql.ErrNoRows)
+	// Use wrapped errors with error types.
+	err = typeerror.SystemFailure()
 	var sferr *typeerror.ErrSystemFailure
 	if errors.As(err, &sferr) {
 		fmt.Println("three")
 	}
-	var sqlErr error = sql.ErrNoRows
+	// Test if the error was because of sql.ErrNoRows.
+	var sqlErr = sql.ErrNoRows
 	if errors.Is(err, sqlErr) {
 		fmt.Println("four")
 	}
